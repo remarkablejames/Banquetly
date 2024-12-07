@@ -32,6 +32,21 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+            name="shift-details/[shiftId]"
+            options={{
+              title: "Shift Details",
+              headerShown: true,
+                headerBackTitle: "Back",
+              headerBlurEffect: "light",
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20,
+
+                },
+              // headerBackVisible: false,
+            }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

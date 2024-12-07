@@ -46,7 +46,7 @@ export default function TabLayout() {
         />
 
       <Tabs.Screen
-        name="explore"
+        name="account"
         options={{
           title: 'Account',
           tabBarIcon: ({ color }) => <MaterialIcons name="account-circle" size={24} color={color} />,
