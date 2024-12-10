@@ -150,7 +150,7 @@ export default function ShiftsScreen() {
                             }}
                         >
                             <Ionicons name="qr-code" size={16} color="white" />
-                            <Text className="text-white font-bold">Clock In Arrival</Text>
+                            <Text className="text-white dark:text-black font-bold">Clock In Arrival</Text>
                         </Button>
                         </View>
                     </Card>
