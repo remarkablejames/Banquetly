@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import "../global.css";
 import {useColorScheme} from "~/hooks/useColorScheme";
+import {Button, Pressable, View} from "react-native";
+import {Feather} from "@expo/vector-icons";
 
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -43,6 +45,16 @@ export default function RootLayout() {
                     fontWeight: "bold",
                     fontSize: 20,
 
+                },
+                headerRight: () => {
+                    return (
+
+                            <Pressable className={"p-4"} onPress={() => {
+                                alert("Share this shift with your friends");
+                            }}>
+                                <Feather name="share-2" size={24} color="black" />
+                            </Pressable>
+                    );
                 },
               // headerBackVisible: false,
             }}

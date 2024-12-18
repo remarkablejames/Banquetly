@@ -1,109 +1,144 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, ScrollView, View as RNView, useColorScheme } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {Users, Settings, CreditCard, LogOut, Edit, LucideProps} from 'lucide-react-native';
 
-import { Collapsible } from '~/components/Collapsible';
-import { ExternalLink } from '~/components/ExternalLink';
-import ParallaxScrollView from '~/components/ParallaxScrollView';
-import { ThemedText } from '~/components/ThemedText';
-import { ThemedView } from '~/components/ThemedView';
-import { IconSymbol } from '~/components/ui/IconSymbol';
-
-export default function TabTwoScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('~/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
-  );
+// User Type Definition
+interface User {
+    name: string;
+    email: string;
+    role: string;
+    shifts: number;
+    rating: number;
 }
 
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});
+// Props Type for AccountMenuItem
+interface AccountMenuItemProps {
+    icon: React.ComponentType<LucideProps>;
+    label: string;
+    onPress: () => void;
+}
+
+// Props Type for AccountSection
+interface AccountSectionProps {
+    title: string;
+    children: React.ReactNode;
+}
+
+const AccountPage: React.FC = () => {
+    const colorScheme = useColorScheme();
+    const isDarkMode = colorScheme === 'dark';
+
+    const [user, setUser] = useState<User>({
+        name: 'Alex Johnson',
+        email: 'alex.johnson@example.com',
+        role: 'Server',
+        shifts: 12,
+        rating: 4.8
+    });
+
+    // Dynamic color palette
+    const colors = {
+        background: isDarkMode ? 'bg-black' : 'bg-gray-50',
+        cardBackground: isDarkMode ? 'bg-neutral-800' : 'bg-white',
+        text: {
+            primary: isDarkMode ? 'text-gray-100' : 'text-gray-900',
+            secondary: isDarkMode ? 'text-gray-400' : 'text-gray-600',
+        },
+        icon: isDarkMode ? '#9CA3AF' : '#4B5563',
+        profileInitials: isDarkMode ? 'bg-blue-700' : 'bg-blue-500',
+        statsBackground: isDarkMode ? 'bg-gray-800' : 'bg-white',
+        logoutBackground: isDarkMode ? 'bg-red-900/20' : 'bg-red-50',
+        logoutText: isDarkMode ? 'text-red-400' : 'text-red-600'
+    };
+
+    const AccountSection: React.FC<AccountSectionProps> = ({ title, children }) => (
+        <RNView className={`${colors.cardBackground} rounded-lg shadow-none border border-gray-200 mb-4 p-4`}>
+            <Text className={`text-lg font-bold ${colors.text.primary} mb-3`}>{title}</Text>
+            {children}
+        </RNView>
+    );
+
+    const AccountMenuItem: React.FC<AccountMenuItemProps> = ({ icon: Icon, label, onPress }) => (
+        <TouchableOpacity
+            className={`flex-row items-center py-3 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}`}
+            onPress={onPress}
+        >
+            <Icon color={colors.icon} size={18} />
+            <Text className={`${colors.text.primary} text-base flex-1 ml-2`}>{label}</Text>
+            <Text className={colors.text.secondary}>›</Text>
+        </TouchableOpacity>
+    );
+
+    return (
+        <SafeAreaView className={`flex-1 ${colors.background}`}>
+            <ScrollView className="flex-1 p-4">
+                {/* Profile Header */}
+                <RNView className="items-center mb-6">
+                    <RNView className={`w-24 h-24 ${colors.profileInitials} rounded-full items-center justify-center mb-4`}>
+                        <Text className="text-white text-3xl font-bold">
+                            {user.name.charAt(0)}
+                        </Text>
+                    </RNView>
+                    <Text className={`text-2xl font-bold ${colors.text.primary}`}>{user.name}</Text>
+                    <Text className={`${colors.text.secondary}`}>{user.email}</Text>
+                </RNView>
+
+                {/* Profile Stats */}
+                <RNView className={`flex-row justify-around ${colors.statsBackground} rounded-lg shadow-none border border-gray-200 py-4 mb-4`}>
+                    <RNView className="items-center">
+                        <Text className="text-xl font-bold text-blue-600">{user.shifts}</Text>
+                        <Text className={colors.text.secondary}>Shifts</Text>
+                    </RNView>
+                    <RNView className="items-center">
+                        <Text className="text-xl font-bold text-green-600">{user.rating}</Text>
+                        <Text className={colors.text.secondary}>Rating</Text>
+                    </RNView>
+                    <RNView className="items-center">
+                        <Text className="text-xl font-bold text-purple-600">{user.role}</Text>
+                        <Text className={colors.text.secondary}>Role</Text>
+                    </RNView>
+                </RNView>
+
+                {/* Account Actions */}
+                <AccountSection title="Account">
+                    <AccountMenuItem
+                        icon={Edit}
+                        label="Edit Profile"
+                        onPress={() => {/* Navigate to edit profile */}}
+                    />
+                    <AccountMenuItem
+                        icon={Users}
+                        label="My Details"
+                        onPress={() => {/* Navigate to details page */}}
+                    />
+                    <AccountMenuItem
+                        icon={CreditCard}
+                        label="Payment Methods"
+                        onPress={() => {/* Navigate to payment methods */}}
+                    />
+                </AccountSection>
+
+                {/* App Settings */}
+                <AccountSection title="App Settings">
+                    <AccountMenuItem
+                        icon={Settings}
+                        label="Preferences"
+                        onPress={() => {/* Navigate to app preferences */}}
+                    />
+                </AccountSection>
+
+                {/* Logout */}
+                <TouchableOpacity
+                    className={`flex-row items-center justify-center ${colors.logoutBackground} p-4 rounded-lg mt-4`}
+                    onPress={() => {/* Implement logout logic */}}
+                >
+                    <LogOut color="#DC2626" size={24} className="mr-2 border" />
+                    <Text className={`${colors.logoutText} font-bold`}>Log Out</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </SafeAreaView>
+    );
+};
+
+export default AccountPage;

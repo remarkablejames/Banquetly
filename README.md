@@ -1,2 +1,3 @@
 # Banquetly
-A react native app for managing staff and events for a banquet hall.
+
+A react native app for managing hospitality event staff and their shifts.
